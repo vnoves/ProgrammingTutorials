@@ -1,0 +1,39 @@
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN[0]
+
+#Sorts between one Element or multiple elements
+ElementList = []
+
+if isinstance(dataEnteringNode, list):
+	ElementList.extend(IN[0])
+else:
+	ElementList.append(IN[0])
+
+#Unwrap Elements
+ElementList = UnwrapElement(ElementList)
+
+
+#Obtain Parameters set of all elements
+ParametersListParam = []
+
+for a in ElementList:
+	ParametersListParam.append(a.Parameters)
+
+#Creates a new list wih the lengh needed.
+ParametersList = []
+while len(ParametersList) != len(ParametersListParam):
+    ParametersList.append([])
+    
+    
+#Obtain Element Names of all elements
+for list in ParametersListParam:
+   for item in list:
+		ParametersList[ParametersListParam.index(list)].append(item.Definition.Name)
+
+
+#Assign your output to the OUT variable.
+OUT = ParametersList
