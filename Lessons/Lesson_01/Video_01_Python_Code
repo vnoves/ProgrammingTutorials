@@ -1,0 +1,14 @@
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+
+newName = IN[0]
+
+if newName == None:
+	newName = "World"
+
+#Assign your output to the OUT variable.
+OUT = "Hello" + IN[0]
