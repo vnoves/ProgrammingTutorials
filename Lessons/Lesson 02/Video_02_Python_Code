@@ -1,0 +1,17 @@
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+
+ElementList = UnwrapElement(IN[0])
+
+ElementList = ElementList.Parameters
+
+ParametersList = []
+
+for i in ElementList:
+	ParametersList.append(i.Definition.Name)
+
+#Assign your output to the OUT variable.
+OUT = ParametersList
