@@ -1,0 +1,27 @@
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+#Revit Document Manager
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+doc = DocumentManager.Instance.CurrentDBDocument
+
+#Revit API
+clr.AddReference('RevitAPI')
+from Autodesk.Revit.DB import FilteredElementCollector
+
+#Revit Nodes
+clr.AddReference('RevitNodes')
+import Revit
+clr.ImportExtensions(Revit.Elements)
+
+import sys
+sys.path.append("C:\Program Files (x86)\IronPython 2.7\Lib")
+import random
+
+var1 = random.randint(0, 100)
+
+#Assign your output to the OUT variable.
+OUT = var1
