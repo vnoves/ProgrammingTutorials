@@ -1,12 +1,12 @@
-Dynamo C# Training Material
+Dynamo C# and Python Training Material
 
-This repository contains the Dynamo C# training, the material I use for the videos in my yuotube channel
+This repository contains the Dynamo C# and Python training, the material I use for the videos in my yuotube channel
 
-It includes all videos, consisting of sample source code exercises in C#, and an accompanying slide deck.
+It includes all videos, consisting of sample source code exercises in C# and Python, and an accompanying slide deck.
 
 The Training Covers Two main Areas.
 
-Procedures to create a New Node 
+Procedures to create Dynamo New Node 
 Basic Concepts of the Revit API
 
 For more information on this, you can contact me at:
@@ -19,7 +19,7 @@ The material provided here for the use with the Youtube Videos. You can also use
 
 This introduces you to the fundamentals of the Programming in C# for Dyanmo to get you started. It does not provide a complete coverage of the entire Revit API, .NET Framework or Dynamo.
 
-Materials are in C#.
+Materials are in C# and Python.
 
 Disclaimer: I am aware that this material is not completely free of errors. I will correct them as I encounter them. Please help me by forking this repository, fixing the issues you note and submitting a pull request for me to integrate your fixes back into the main repository. Thank you! We hope this will still be useful for you to get started with programming in Dynamo.
 
