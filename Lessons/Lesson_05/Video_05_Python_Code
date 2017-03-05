@@ -1,65 +1,34 @@
-#Import Common Language Runtime
 import clr
 clr.AddReference('ProtoGeometry')
 from Autodesk.DesignScript.Geometry import *
-
-#Get the current Document
-clr.AddReference("RevitServices")
-import RevitServices
-from RevitServices.Persistence import DocumentManager
-doc = DocumentManager.Instance.CurrentDBDocument
-
-#Import the Revit API
-clr.AddReference("RevitAPI")
-from Autodesk.Revit.DB import FilteredElementCollector
-
-#Import the Dynamo Nodes
-clr.AddReference("RevitNodes")
-import Revit
-clr.ImportExtensions(Revit.Elements)
-
-#Create Empty List called out1
-out1 = []
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+import math
 
 
-#Filter though all elements in the actual Document and get the ones
-#That element Types
-fec = FilteredElementCollector(doc).WhereElementIsElementType()
+angles = []
 
-#Convert Revit Elements To Dynamo Elements
-for e in fec:
-	try:
-		out1.append(e.ToDSType(True))
-	except:
-		pass
 
-#Create a function called Tolist in order to identify if the element is a
-#list or not
-def tolist(obj1):
-	if hasattr(obj1,"__iter__"): return obj1
-	else: return [obj1]
+angles = range(0, 360, 10)
+for index, angle in enumerate(angles):
+	angles[index] =  math.radians(angle)
 
-#Wrapp elemnts to Revit so we can use them in Dynamo
-elements = UnwrapElement(tolist(out1))
+xPoints = []
 
-#Instance the Function Tolist with the input of the category that we need
-filter = tolist("Title Block")
+for x in angles:
+	xPoints.append(10*math.cos(x))
+	
+	
+yPoints = []
 
-#Create in1 and out2 as empty lists
-in1, out2 = [], []
+for x in angles:
+	yPoints.append(10*math.sin(x))
 
-#Get the index number of each element
-#create variable n1 with each of the category names as lower
-#except if the category name is empty
-#If the category in tolist == the category of the element
-#append it to in1
-#on the contraty append it to Out2
-for i in xrange(len(elements)):
-	try: n1 = elements[i].Category.Name.lower()
-	except: n1 = ""
-	if any(filter[j].lower() in n1 for j in xrange(len(filter))):
-		in1.append(elements[i])
-	else: out2.append(elements[i])
+pointlist = []
 
-#Get the final list of our elements in the desired category
-OUT = in1
+for index, point in enumerate(xPoints):
+	pointlist.append(Point.ByCoordinates(point,yPoints[index],0))
+	
+	
+#Assign your output to the OUT variable.
+OUT = pointlist
