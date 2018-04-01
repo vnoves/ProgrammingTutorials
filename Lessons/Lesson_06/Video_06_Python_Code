@@ -5,6 +5,7 @@ from Autodesk.DesignScript.Geometry import *
 dataEnteringNode = IN
 import math
 
+#Points Creation
 
 angles = []
 
@@ -23,21 +24,55 @@ yPoints = []
 
 for x in angles:
 	yPoints.append(IN[0]*math.sin(x))
+	
 
 pointlist = []
 
 for index, point in enumerate(xPoints):
 	pointlist.append(Point.ByCoordinates(point,yPoints[index],0))
 
+
+#Policurve creation
 	
 Linelist = PolyCurve.ByPoints(pointlist, True)	
 
+#Surface creation
+
 Surface = Linelist.Patch()
+
+#Extrusion creation
 
 Extrude = Surface.Thicken(IN[0])
 
-	
-#Linelist.append(Line.ByStartPointEndPoint(CustomPoint1, CustomPoint2))
+
+#Rotation
+
+PointOrigin = Point.ByCoordinates(0,0,0)
+
+#Rotation Axis x
+
+PointDesplaceX = Point.ByCoordinates(1,0,0)
+
+VectorRoateX = Vector.ByTwoPoints(PointOrigin, PointDesplaceX)
+
+GeometryRotateX = Extrude.Rotate(PointOrigin, VectorRoateX, IN[1])
+
+#Rotation Axis Y
+
+PointDesplaceY = Point.ByCoordinates(0,1,0)
+
+VectorRoateY = Vector.ByTwoPoints(PointOrigin, PointDesplaceY)
+
+GeometryRotateY = GeometryRotateX.Rotate(PointOrigin, VectorRoateY, IN[2])
+
+#Rotation Axis Z
+
+PointDesplaceZ = Point.ByCoordinates(0,0,1)
+
+VectorRoateZ = Vector.ByTwoPoints(PointOrigin, PointDesplaceZ)
+
+GeometryRotateZ = GeometryRotateY.Rotate(PointOrigin, VectorRoateZ, IN[3])
+
 
 #Assign your output to the OUT variable.
-OUT = pointlist, Linelist, Surface, Extrude
+OUT =  GeometryRotateZ
