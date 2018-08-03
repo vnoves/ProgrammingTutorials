@@ -1,0 +1,44 @@
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+range1 = IN[0]
+range2 = IN[1]
+myfilepath = IN[2]
+logopath = IN[3]
+
+OUT = 0
+
+import clr
+clr.AddReferenceByName('Microsoft.Office.Interop.Excel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c')
+from Microsoft.Office.Interop import Excel
+
+ex = Excel.ApplicationClass()
+ex.Visible = True
+ex.DisplayAlerts = False
+workbook = ex.Workbooks.Open(myfilepath)
+worksheet = workbook.Worksheets[1]
+
+cell = worksheet.Range["A1", "E10"] # Puts Hello World in Range A1-E10
+cell.Value2 = 'Hello World'
+cell2 = worksheet.Range[range1, range2] # Merge Range defined by the IN[0] and IN[1]
+cell2.Merge()
+
+worksheet.PageSetup.LeftHeader = "Page""&Arial" # DEFINES TEXT FOR HEADERS AND FOOTERS
+worksheet.PageSetup.CenterHeader = '&10&"Arial" revision \n &7&"Arial"DATED: 29.06.2014'
+worksheet.PageSetup.LeftFooter = '&10&"Arial"TYPE HERE INFORMATION'
+worksheet.PageSetup.RightFooter = '&10&"Arial" Page &P of &N'
+
+worksheet.Pictures().Insert(r"C:\Users\STEFANO\Downloads\logo.jpg") # INSERT A PICTURE IN THE WORKSHEET, IN POSITION "TOP LEFT"
+
+worksheet.PageSetup.RightHeaderPicture.Filename = "C:\Users\STEFANO\Downloads\logo.jpg"
+worksheet.PageSetup.RightHeader = "&G"
+
+
+worksheet.PageSetup.PaperSize = 8   # setup A3 as papersize
+worksheet.PageSetup.Orientation = 2	# setup landscape orientation
+worksheet.PrintPreview(False)		# setup the printing preview
+worksheet.SaveAs(unicode(myfilepath))
+
+# Clear off the Object references to the Com Objects
+cell = worksheet = workbooks = ex = None
