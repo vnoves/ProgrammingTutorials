@@ -87,6 +87,7 @@ dialog.MainContent = "Surface:     " + SurfaceVolumne + "\n" + "Volume:      "+ 
 dialog.CommonButtons = TaskDialogCommonButtons.Close;
 dialog.DefaultButton = TaskDialogResult.Close;
 
+
 dialog.Show()
 
 #Assign your output to the OUT variable.
