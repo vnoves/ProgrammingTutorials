@@ -1,0 +1,21 @@
+import time
+import clr
+clr.AddReferenceByName('Microsoft.Office.Interop.Excel, version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c')
+from Microsoft.Office.Interop import Excel
+
+time.sleep(3)
+
+dirfichier = r"C:\Users\a.goudinoux\Desktop\Metres go revit\maj metres go simplifies.xlsm"
+dirmacro = r"C:\Users\a.goudinoux\Desktop\Metres go revit\maj metres go simplifies.xlsm!Dynamo"
+
+ex = Excel.ApplicationClass()
+ex.Visible = True
+ex.DisplayAlerts = False
+
+wb = ex.Workbooks.Open(dirfichier)
+ws = wb.Worksheets[1]
+
+ex.Application.Run ("Dynamo")
+ex.Application.Quit()
+
+Out = 0
