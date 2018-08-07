@@ -1,4 +1,4 @@
-Dynamo C# and Python Training Material
+Dynamo C# and Python Training Material--
 
 This repository contains the Dynamo C# and Python training, the material I use for the videos in my yuotube channel
 
