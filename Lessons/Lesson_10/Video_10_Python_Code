@@ -11,6 +11,7 @@ from System.Drawing import Size, Point, Font, Color, Image
 
 in1 = IN[0]
 
+
 class IForm(Form):
 
     def __init__(self):
@@ -20,24 +21,35 @@ class IForm(Form):
         self.Font = Font("Arial",12)
         self.BackColor = Color.White
         
-        self.label = Label()
-        self.label.Text = "Choose"
-        self.label.Location = Point(25, 100)
-        self.label.Height = 25
-        self.label.Width = 225
-        self.label.Font = Font("OpenSans",12)
+        
+        #Add a text
+        #self.label = Label()
+        #self.label.Text = "Choose"
+        #self.label.Location = Point(25, 100)
+        #self.label.Height = 25
+        #self.label.Width = 225
+        #self.label.Font = Font("OpenSans",12)
             
         j=150
-        for i in range(len(in1)):
-            self.checkbox = CheckBox()
-            self.checkbox.Text=in1[i]
-            self.checkbox.Location = Point(25,j)
-            j+=25
-            self.checkbox.Width = 200
-            self.checkbox.Font= Font("OpenSans",10)
-            self.Controls.Add(self.checkbox)
-            self.checkval.append(self.checkbox)
+        #for i in range(len(in1)):
+            #self.checkbox = CheckBox()
+            #self.checkbox.Text=in1[i]
+            #self.checkbox.Location = Point(25,j)
+            #j+=25
+            #self.checkbox.Width = 200
+            #self.checkbox.Font= Font("OpenSans",10)
+            #self.Controls.Add(self.checkbox)
+            #self.checkval.append(self.checkbox)
         
+        
+        self.textbox = TextBox()
+       	self.textbox.Text = "Hello"
+        self.textbox.Location = Point(25, 150)
+        self.textbox.Width = 200
+        self.Controls.Add(self.textbox)
+        
+        
+        #Build Acept Button
         self.button1 = Button()
         self.button1.Text = 'apply and close'
         self.button1.Location = Point(25, j+50)
@@ -46,7 +58,11 @@ class IForm(Form):
 
         self.AcceptButton = self.button1
 
-        self.Controls.Add(self.label)
+
+		#Add Label
+        #self.Controls.Add(self.label)
+        
+        
         self.Controls.Add(self.button1)
                 
         self.CenterToScreen()
@@ -77,9 +93,13 @@ class IForm(Form):
     def update(self, sender, event):
         for f in self.checkval:
             self.output1.append(f.Checked)
-
+	
+	global extent
+	extent = self.textbox.Text
         self.Close()
-
+        
 form = IForm()
 Application.Run(form)
-OUT = form.output1, form.output2
+
+
+OUT = extent
