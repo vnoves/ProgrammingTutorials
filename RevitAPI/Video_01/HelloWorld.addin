@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Assembly>HelloWorld.dll</Assembly>
+    <AddInId>67EC7A9D-4FA9-43C5-A658-F7104D1880BC</AddInId>
+    <FullClassName>HelloWorld.Class1</FullClassName>
+    <Text>HelloWorld</Text>
+    <VendorId>VNOV</VendorId>
+    <VendorDescription>Vnoves, www.valentinnoves.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
