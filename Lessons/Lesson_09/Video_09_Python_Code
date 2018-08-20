@@ -1,7 +1,7 @@
 import clr
 clr.AddReference('ProtoGeometry')
 from Autodesk.DesignScript.Geometry import *
-#The inputs to this node will be stored as a list in the IN variables.
+
 
 import math
 import clr
