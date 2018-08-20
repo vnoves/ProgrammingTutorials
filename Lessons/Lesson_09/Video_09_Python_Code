@@ -2,7 +2,6 @@ import clr
 clr.AddReference('ProtoGeometry')
 from Autodesk.DesignScript.Geometry import *
 
-
 import math
 import clr
 clr.AddReference("RevitAPIUI")
