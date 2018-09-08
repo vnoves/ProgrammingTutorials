@@ -1,4 +1,4 @@
-Dynamo C# and Python Training Material
+## Dynamo C# and Python Training Material ##
 
 This repository contains the Dynamo C# and Python training, the material I use for the videos in my yuotube channel
 
@@ -13,7 +13,7 @@ For more information on this, you can contact me at:
 
 novesvalentin@gmail.com
 
-About this material
+## About this material ##
 
 The material provided here for the use with the Youtube Videos. You can also use it for self-learning.
 
@@ -24,6 +24,8 @@ Materials are in C# and Python.
 Disclaimer: I am aware that this material is not completely free of errors. I will correct them as I encounter them. Please help me by forking this repository, fixing the issues you note and submitting a pull request for me to integrate your fixes back into the main repository. Thank you! We hope this will still be useful for you to get started with programming in Dynamo.
 
 Good luck!
+
+## About the Author ##
 
 Valentin Noves
 
