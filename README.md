@@ -9,6 +9,12 @@ The Training Covers Two main Areas.
 Procedures to create Dynamo New Node 
 Basic Concepts of the Revit API
 
+
+Watch the videos from my channel:
+
+https://www.youtube.com/channel/UCp_UhkKl76_KA6WaHvWCBMg?view_as=subscriber
+
+
 For more information on this, you can contact me at:
 
 novesvalentin@gmail.com
