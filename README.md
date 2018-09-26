@@ -13,9 +13,9 @@ Basic Concepts of the Revit API
 Watch the videos from my [Youtube Channel](https://www.youtube.com/channel/UCp_UhkKl76_KA6WaHvWCBMg)
 
 
-For more information on this, you can contact me at:
+For more information visit my [Website](http://valentinnoves.com/)
 
-novesvalentin@gmail.com
+
 
 ## About this material ##
 
