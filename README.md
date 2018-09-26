@@ -12,7 +12,7 @@ Basic Concepts of the Revit API
 
 Watch the videos from my channel:
 
-https://www.youtube.com/channel/UCp_UhkKl76_KA6WaHvWCBMg?view_as=subscriber
+[Youtube Channel](https://www.youtube.com/channel/UCp_UhkKl76_KA6WaHvWCBMg)
 
 
 For more information on this, you can contact me at:
