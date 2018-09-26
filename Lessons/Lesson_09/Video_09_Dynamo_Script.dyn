@@ -1,0 +1,191 @@
+<Workspace Version="1.3.2.2480" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Home" Description="" RunType="Manual" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap />
+  <Elements>
+    <PythonNodeModels.PythonNode guid="74f1b18a-2d5b-45f1-913a-e8ba02f077b8" type="PythonNodeModels.PythonNode" nickname="Python Script" x="664" y="287" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="6">
+      <PortInfo index="0" default="False" />
+      <PortInfo index="1" default="False" />
+      <PortInfo index="2" default="False" />
+      <PortInfo index="3" default="False" />
+      <PortInfo index="4" default="False" />
+      <PortInfo index="5" default="False" />
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+
+import math
+import clr
+clr.AddReference("RevitAPIUI")
+from Autodesk.Revit.UI import *
+#Points Creation
+
+import clr
+clr.AddReferenceByName('Microsoft.Office.Interop.Excel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c')
+from Microsoft.Office.Interop import Excel
+
+
+dataEnteringNode = IN
+angles = []
+
+
+angles = range(0, 360, 10)
+for index, angle in enumerate(angles):
+	angles[index] =  math.radians(angle)
+
+xPoints = []
+
+for x in angles:
+	xPoints.append(IN[0]*math.cos(x))
+	
+	
+yPoints = []
+
+for x in angles:
+	yPoints.append(IN[0]*math.sin(x))
+	
+
+pointlist = []
+
+for index, point in enumerate(xPoints):
+	pointlist.append(Point.ByCoordinates(point,yPoints[index],0))
+
+
+#Policurve creation
+	
+Linelist = PolyCurve.ByPoints(pointlist, True)	
+
+#Surface creation
+
+Surface = Linelist.Patch()
+
+#Extrusion creation
+
+Extrude = Surface.Thicken(IN[0])
+
+
+#Rotation
+
+PointOrigin = Point.ByCoordinates(0,0,0)
+
+#Rotation Axis x
+
+PointDesplaceX = Point.ByCoordinates(1,0,0)
+
+VectorRoateX = Vector.ByTwoPoints(PointOrigin, PointDesplaceX)
+
+GeometryRotateX = Extrude.Rotate(PointOrigin, VectorRoateX, IN[1])
+
+#Rotation Axis Y
+
+PointDesplaceY = Point.ByCoordinates(0,1,0)
+
+VectorRoateY = Vector.ByTwoPoints(PointOrigin, PointDesplaceY)
+
+GeometryRotateY = GeometryRotateX.Rotate(PointOrigin, VectorRoateY, IN[2])
+
+#Rotation Axis Z
+
+PointDesplaceZ = Point.ByCoordinates(0,0,1)
+
+VectorRoateZ = Vector.ByTwoPoints(PointOrigin, PointDesplaceZ)
+
+GeometryRotateZ = GeometryRotateY.Rotate(PointOrigin, VectorRoateZ, IN[3])
+
+
+SurfaceVolumne = str(round(Surface.Area,2))
+TotalVolume = str(round(Extrude.Volume,2))
+
+dialog = TaskDialog("Metric")
+dialog.MainInstruction = "Values"
+dialog.MainContent = "Surface:     " + SurfaceVolumne + "\n" + "Volume:      "+ TotalVolume
+
+dialog.CommonButtons = TaskDialogCommonButtons.Ok;
+dialog.DefaultButton = TaskDialogResult.Ok;
+
+
+if Surface.Area &gt; 500 :
+	dialog.MainInstruction = "WARNING VALUE &gt; 500"
+	dialog.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+	dialog.Show()
+elif IN[4] == True :
+	dialog.Show()
+else :
+	pass
+	
+	
+	
+myfilepath = IN[5]
+
+ex = Excel.ApplicationClass()
+ex.Visible = False
+ex.DisplayAlerts = False
+workbook = ex.Workbooks.Open(myfilepath)
+worksheet = workbook.Worksheets[1]
+
+row = 1
+column = 1
+activecell1 = worksheet.Cells[column, 1]
+
+while activecell1.Text != "":
+	if activecell1.Text != "" :
+		column = column + 1
+		activecell1 = worksheet.Cells[column, 1]
+
+#cell = worksheet.Range["A1", "E10"]
+#cell.Value2 = 'TestMove'
+
+worksheet.SaveAs(unicode(myfilepath))
+
+# Clear off the Object references to the Com Objects
+#cell = worksheet = workbooks = ex = None
+
+activecell1.Value2 = SurfaceVolumne
+
+
+close = workbook.Close(True)
+ex.Quit()
+	
+	
+
+#Assign your output to the OUT variable.
+OUT =  GeometryRotateZ</Script>
+    </PythonNodeModels.PythonNode>
+    <CoreNodeModels.Input.IntegerSlider guid="79e643d6-6581-4cf8-bea5-f14fde730eb0" type="CoreNodeModels.Input.IntegerSlider" nickname="Integer Slider" x="201" y="290" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Int32>8</System.Int32>
+      <Range min="0" max="100" step="1" />
+    </CoreNodeModels.Input.IntegerSlider>
+    <CoreNodeModels.Input.IntegerSlider guid="756cb1aa-f7f2-4a67-a930-ee59057b6dd7" type="CoreNodeModels.Input.IntegerSlider" nickname="Integer Slider" x="200" y="361" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Int32>30</System.Int32>
+      <Range min="0" max="100" step="1" />
+    </CoreNodeModels.Input.IntegerSlider>
+    <CoreNodeModels.Input.IntegerSlider guid="89b55fa4-cc59-4ec0-8911-483dd89a0d6a" type="CoreNodeModels.Input.IntegerSlider" nickname="Integer Slider" x="189" y="210" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Int32>5</System.Int32>
+      <Range min="0" max="100" step="1" />
+    </CoreNodeModels.Input.IntegerSlider>
+    <CoreNodeModels.Input.IntegerSlider guid="b9c2d781-8d39-4c6d-b217-c0216baae894" type="CoreNodeModels.Input.IntegerSlider" nickname="Integer Slider" x="195" y="437" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Int32>14</System.Int32>
+      <Range min="0" max="100" step="1" />
+    </CoreNodeModels.Input.IntegerSlider>
+    <CoreNodeModels.Input.BoolSelector guid="9df97cd5-1eb9-46fb-96d4-0a0881b64fbe" type="CoreNodeModels.Input.BoolSelector" nickname="Boolean" x="359" y="520" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.Boolean>False</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
+    <CoreNodeModels.Input.Filename guid="4d7fd944-445b-4e86-9b2b-f4eb3db2e4c6" type="CoreNodeModels.Input.Filename" nickname="File Path" x="288" y="599" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <System.String>C:\Users\noves\OneDrive\Desktop\Test.xlsx</System.String>
+      <HintPath>C:\Users\noves\OneDrive\Desktop\Test.xlsx</HintPath>
+    </CoreNodeModels.Input.Filename>
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="79e643d6-6581-4cf8-bea5-f14fde730eb0" start_index="0" end="74f1b18a-2d5b-45f1-913a-e8ba02f077b8" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="756cb1aa-f7f2-4a67-a930-ee59057b6dd7" start_index="0" end="74f1b18a-2d5b-45f1-913a-e8ba02f077b8" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="89b55fa4-cc59-4ec0-8911-483dd89a0d6a" start_index="0" end="74f1b18a-2d5b-45f1-913a-e8ba02f077b8" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="b9c2d781-8d39-4c6d-b217-c0216baae894" start_index="0" end="74f1b18a-2d5b-45f1-913a-e8ba02f077b8" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="9df97cd5-1eb9-46fb-96d4-0a0881b64fbe" start_index="0" end="74f1b18a-2d5b-45f1-913a-e8ba02f077b8" end_index="4" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="4d7fd944-445b-4e86-9b2b-f4eb3db2e4c6" start_index="0" end="74f1b18a-2d5b-45f1-913a-e8ba02f077b8" end_index="5" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations />
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-17" eyeY="24" eyeZ="50" lookX="12" lookY="-13" lookZ="-58" upX="0" upY="1" upZ="0" />
+  </Cameras>
+</Workspace>
