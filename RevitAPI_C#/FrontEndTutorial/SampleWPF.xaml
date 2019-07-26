@@ -1,0 +1,39 @@
+﻿<Window x:Class="FrontEndTutorial.SampleWPF"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         
+             xmlns:local="clr-namespace:FrontEndTutorial"
+        mc:Ignorable="d" Height="200" Width="300" MinHeight="200" MinWidth="300"  MaxHeight="200" MaxWidth="300" WindowStartupLocation="CenterScreen"
+
+        ResizeMode="NoResize" 
+        Title="WPFSample" 
+        Style="{DynamicResource CustomWindowStyle}"
+        WindowStyle="None"  >
+
+
+    <Window.InputBindings>
+        <KeyBinding Key="A" Modifiers="Control" Command="SelectAll" />
+    </Window.InputBindings>
+
+
+    <Grid Margin="10,0,10,6" Background="White"  >
+        <Grid.Effect>
+            <DropShadowEffect BlurRadius="20" Color="Gray" Opacity="0.3" ShadowDepth="0" Direction="0"></DropShadowEffect>
+        </Grid.Effect>
+
+        <Button Style="{DynamicResource MainButtonStyle}" x:Name="AcceptButton" Content="ACCEPT" Margin="25,100,33,0" Click="Accept_Click" Grid.Column="1" ToolTip="Add element to selection, use ctrl + A to select multiple" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource Labels}" Content="Hello World!" Margin="53,35,0,0" Height="33" VerticalAlignment="Top" HorizontalAlignment="Left" Width="163" />
+
+    </Grid>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="UserControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+</Window>

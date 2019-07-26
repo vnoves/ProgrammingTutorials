@@ -1,0 +1,229 @@
+﻿<ResourceDictionary  
+                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     x:Class="FrontEndTutorial.UserControl"
+                     xmlns:system="clr-namespace:System;assembly=mscorlib"
+                     xmlns:local="clr-namespace:FrontEndTutorial"
+                        xmlns:sw="clr-namespace:WpfStyleableWindow.StyleableWindow;assembly=">
+
+    <!-- Colors of the bar-->
+    <SolidColorBrush x:Key="WindowColor" Color="Red"/>
+    <!-- Colors of the Title Bar-->
+    <SolidColorBrush x:Key="WindowBackColor" Color="Gray"/>
+    <!--Color of the tittle of the Main form-->
+    <SolidColorBrush x:Key="WindowForeColor" Color="White"/>
+    <!--Color of the tittle of the Main form when hovered-->
+    <SolidColorBrush x:Key="WindowForeHighlightColor" Color="White"/>
+    <!--Color of the container of minimize, maximize and close buttons-->
+    <SolidColorBrush x:Key="WindowButtonColor" Color="Gray"/>
+    <!--Color of the container of minimize, maximize and close buttons when hovered-->
+    <SolidColorBrush x:Key="WindowButtonOverColor" Color="White" Opacity="0.5"/>
+    <!--Color of the container of minimize, maximize and close buttons when pressed-->
+    <SolidColorBrush x:Key="WindowButtonPressedColor" Color="White" Opacity="0.8"/>
+
+    <!--The window template and it's components -->
+    <sw:WindowCloseCommand x:Key="CloseCommand"></sw:WindowCloseCommand>
+
+
+    <!--Style for the close, maximize and minimize buttons-->
+    <Style TargetType="{x:Type Button}" x:Key="WindowButton">
+        <Setter Property="Height" Value="25"/>
+        <Setter Property="Width" Value="25"/>
+        <Setter Property="Background" Value="{StaticResource WindowBackColor}"/>
+        <Setter Property="Foreground" Value="{StaticResource WindowForeColor}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{StaticResource WindowButtonColor}"/>
+                            <Setter Property="Foreground" Value="{StaticResource WindowColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource WindowButtonOverColor}"/>
+                            <Setter Property="Foreground" Value="{StaticResource WindowForeHighlightColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource WindowButtonPressedColor}"/>
+                            <Setter Property="Foreground" Value="{StaticResource WindowForeColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!--Control template for Main forms-->
+    <ControlTemplate x:Key="WindowTemplate" TargetType="{x:Type Window}">
+        <Grid Background="Transparent">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <!--Bar height-->
+                    <RowDefinition Height="30"/>
+                    <!--Window Body heigh-->
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="10,0,0,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="43"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Tittle bar-->
+                    <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Background="{StaticResource WindowBackColor}" Margin="0,0,10,0">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" Color="Gray" Opacity="0.4" Direction="0" ShadowDepth="0"></DropShadowEffect>
+                        </Border.Effect>
+                    </Border>
+
+                    <!--Location of title-->
+                    <Label Grid.Column="1" DockPanel.Dock="Left" Content="{TemplateBinding Property=Title}" Padding="25,0,0,0"                                                                                  
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="{StaticResource WindowForeColor}"                                           
+                                    FontSize="16"
+                                    sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                    
+                                    sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                    sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                    sw:ShowSystemMenuBehavior.RightButtonShow="true">
+                    </Label>
+
+                    <!--Custom Logo-->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,0,0">
+                        <TextBlock>
+                            <Button Style="{StaticResource WindowButton}" Name="btnAnswer4" BorderThickness="0" MouseDown="AddInLink" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <Image Height="25" Source="Resources/Custom.png" Stretch="UniformToFill" MouseDown="AddInLink" Cursor="Hand" />
+                            </Button>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        
+                        <!--Customization of the Close button-->
+                        <Button DockPanel.Dock="Right"  Style="{StaticResource WindowButton}" Command="{StaticResource CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">X</Button>
+                    </StackPanel>
+                </Grid>
+
+                <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0 0 0 0" Background="{TemplateBinding Background}">
+                    <Grid>
+                        <AdornerDecorator>
+                            <ContentPresenter x:Name="WindowContent"/>
+                        </AdornerDecorator>
+                        <!--<ResizeGrip  x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom"/>-->
+                    </Grid>
+                </Border>
+
+                <!--Tittle bar shadow effect-->
+                <Border BorderThickness="0,0,0,3" BorderBrush="{StaticResource WindowBackColor}" Margin="10,0,10,0" >
+                    <Border.Effect>
+                        <DropShadowEffect Opacity="0.5" Direction="270" Color="Gray" ShadowDepth="2" BlurRadius="8"></DropShadowEffect>
+                    </Border.Effect>
+                </Border>
+
+            </Grid>
+            <Thumb x:Name="ThumbTop" Height="6" Margin="14,0" VerticalAlignment="Top" Cursor="SizeNS"  Opacity="0" sw:WindowResizeBehavior.TopResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+            <Thumb x:Name="ThumbTopLeft" Height="6" Width="6" VerticalAlignment="Top" HorizontalAlignment="Left" Cursor="SizeNWSE"  Opacity="0" sw:WindowResizeBehavior.TopLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+            <Thumb x:Name="ThumbBottom" Height="6" Margin="14,0" VerticalAlignment="Bottom" Cursor="SizeNS" Opacity="0" sw:WindowResizeBehavior.BottomResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+            <Thumb x:Name="ThumbTopRight" Height="6" Width="6" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="SizeNESW"  Opacity="0" sw:WindowResizeBehavior.TopRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+            <Thumb x:Name="ThumbRight" HorizontalAlignment="Right" Margin="0,14" Width="6" Cursor="SizeWE"  Opacity="0" sw:WindowResizeBehavior.RightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+            <Thumb x:Name="ThumbBottomRight" Height="6" Width="6" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE"  Opacity="0" sw:WindowResizeBehavior.BottomRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+            <Thumb x:Name="ThumbLeft" HorizontalAlignment="Left" Margin="0,14" Width="6" Cursor="SizeWE"  Opacity="0" sw:WindowResizeBehavior.LeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+            <Thumb x:Name="ThumbBottomLeft" Height="6" Width="6" VerticalAlignment="Bottom" HorizontalAlignment="Left" Cursor="SizeNESW"  Opacity="0" sw:WindowResizeBehavior.BottomLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+
+        </Grid>
+    </ControlTemplate>
+
+
+    <!--Custom windows style of the Main window-->
+    <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <!--Color of the borders-->
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="Transparent"/>
+        <Setter Property="Template" Value="{StaticResource WindowTemplate}"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
+    </Style>
+
+
+    
+    <!--MainButtons Custom template-->
+    <ControlTemplate  x:Key="MainButtonStyleTemplate" TargetType="Button">
+        <Border x:Name="border" 
+                    CornerRadius="3" 
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsDefaulted" Value="True">
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity"  TargetName="border" Value="0.5"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Opacity"  TargetName="border" Value="0.2"/>
+
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+    
+    <!--Customization of MainButtons template-->
+    <Style x:Key="MainButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Template" Value="{StaticResource MainButtonStyleTemplate}"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontSize" Value="14px"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{StaticResource WindowButtonColor}"/>
+        <Setter Property="ToolTipService.ShowDuration" Value="2000"/>
+        <Setter Property="ToolTipService.InitialShowDelay" Value="1500"/>
+        <Setter Property="Height"  Value="38"/>
+        <Setter Property="Button.Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3.6" BlurRadius="3" Opacity="0.25" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+    <!--SecondaryButtons Custom template-->
+    <ControlTemplate  x:Key="LabelsTemplate" TargetType="Label">
+
+        <Border>
+            <ContentPresenter HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RecognizesAccessKey="True" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled"
+                   Value="true">
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--Customization of labels template-->
+    <Style x:Key="Labels" TargetType="{x:Type Label}">
+        <Setter Property="Template" Value="{StaticResource LabelsTemplate}"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontSize" Value="30px"/>
+        <Setter Property="Foreground" Value="Gray"/>
+    </Style>
+
+
+</ResourceDictionary>
